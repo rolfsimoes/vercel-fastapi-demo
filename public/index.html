@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FastAPI na Vercel</title>
+<style>
+  :root { color-scheme: light dark; --fg: #1a2228; --bg: #f4f6f7; --card: #fff; --line: #d5dde1; --accent: #1f5fa8; }
+  @media (prefers-color-scheme: dark) { :root { --fg: #e3e9ed; --bg: #0e1418; --card: #182229; --line: #2a363e; --accent: #6aa6ea; } }
+  body { margin: 0; padding: 16px; font: 16px/1.5 system-ui, sans-serif; color: var(--fg); background: var(--bg); }
+  main { max-width: 520px; margin: 0 auto; display: grid; gap: 16px; }
+  section { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 16px; display: grid; gap: 8px; }
+  h1, h2 { margin: 0; }
+  input, button { font: inherit; padding: 8px 12px; border-radius: 8px; border: 1px solid var(--line); }
+  button { background: var(--accent); color: #fff; border: 0; }
+  pre { margin: 0; white-space: pre-wrap; font-size: 0.9rem; }
+  a { color: var(--accent); }
+</style>
+</head>
+<body>
+<main>
+  <h1>FastAPI na Vercel</h1>
+  <p>Esta página vem da pasta <code>public/</code>. Os botões chamam o backend em Python, em <code>/api</code>. A documentação automática da API está em <a href="/api/docs">/api/docs</a>.</p>
+
+  <section>
+    <h2>GET /api/hello</h2>
+    <input id="name" placeholder="Seu nome">
+    <button id="hello" type="button">Cumprimentar</button>
+    <pre id="hello-out"></pre>
+  </section>
+
+  <section>
+    <h2>POST /api/average</h2>
+    <input id="grades" placeholder="Notas separadas por vírgula, ex.: 7, 8.5, 9">
+    <button id="average" type="button">Calcular a média</button>
+    <pre id="average-out"></pre>
+  </section>
+</main>
+<script>
+  const show = (id, value) => { document.getElementById(id).textContent = JSON.stringify(value, null, 2); };
+
+  document.getElementById('hello').addEventListener('click', async () => {
+    const name = document.getElementById('name').value.trim();
+    const r = await fetch('/api/hello' + (name ? '?name=' + encodeURIComponent(name) : ''));
+    show('hello-out', await r.json());
+  });
+
+  document.getElementById('average').addEventListener('click', async () => {
+    const grades = document.getElementById('grades').value.split(',').map(s => Number(s.trim())).filter(n => !Number.isNaN(n));
+    const r = await fetch('/api/average', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ grades }) });
+    show('average-out', { status: r.status, body: await r.json() });
+  });
+</script>
+</body>
+</html>
