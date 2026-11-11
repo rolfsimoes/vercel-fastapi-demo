@@ -2,6 +2,8 @@
 
 Um backend em Python no ar, de graça, em 5 passos.
 
+Veja funcionando: https://vercel-fastapi-demo-tan.vercel.app
+
 ## 1. Baixe e instale
 
 ```bash
@@ -39,10 +41,10 @@ Responda as perguntas e crie um projeto novo. No fim aparece o endereço.
 
 ## 5. Use
 
-Abra o endereço no navegador, ou:
+Abra o seu endereço no navegador, ou teste pelo terminal. Com o endereço da demo:
 
 ```bash
-curl "https://SEU-ENDERECO/api/hello?name=Ana"
+curl "https://vercel-fastapi-demo-tan.vercel.app/api/hello?name=Ana"
 ```
 
 ## O que tem aqui
